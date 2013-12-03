@@ -1,0 +1,30 @@
+{% extends 'yum/base_withlogin.html' %}
+
+{% block title %}
+Profile
+{% endblock title %}
+
+{% block profile %}<li class="active"><a href="/munchndrank/userprofile">Profile</a></li>{% endblock profile %}
+
+{% block content %}
+          <div class="jumbotron">
+            <div class"row-fluid">
+              <div class="span4">
+                {% block user_photo %} 
+                 <img src="{% url 'photo' %}" alt="{{form.name.value}}" height="250px" width="250px" float="left" style="border:5px solid black">
+               {% endblock %}
+              </div>
+              <a href="/munchndrank/edit-profile" style="float:right" class="btn btn-default">Edit</a>
+             <!-- <a href="#followUser" style="float:right" class="btn btn-info">Follow</a>-->
+              
+              <div class="span4">
+                <h1>{{ name }}</h1>
+                <p> {{ info }} </p>
+                 <a class="btn btn-sm btn-link" style="font-size:22px" href="/munchndrank/openbook/{{name}}" role="button">Public Recipe Book</a>
+              </div>
+
+
+            </div>
+
+          </div>
+{% endblock content %}

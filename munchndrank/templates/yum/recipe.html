@@ -1,0 +1,126 @@
+{% extends 'yum/base_withlogin.html' %}
+{% block title %}
+Munch N Drank
+{% endblock title %}
+{% block content %}
+        
+      <div class="page-header">
+        <h1></h1>
+      </div>
+      
+   <div class="row row-offcanvas row-offcanvas-right">
+
+      <div id="recipebody" class="col-xs-12 col-sm-9">
+          <p class="pull-right visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+
+         <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">{% if recipe.drink_flag = 1 %} Drink {% else %} Food {% endif %}</h3>
+            </div>
+            <div class="panel-body">
+
+<!--            <div id="share_div" style="float:right">
+              <form action="#" method="post">
+              <input type="submit" class="btn btn-sm btn-warning" style="font-size:22px" name="share" value="Share">
+              {% csrf_token %}
+              </form>
+            </div> -->
+
+              <!-- if in recipe book - (checked in backend) then this button shouldn't appear -->
+            {% if not_belong %}
+            <div id="save_div" style="float:right">
+              <form action="/munchndrank/save-recipe/{{recipe.id}}" method="post">
+              <input type="submit" class="btn btn-sm btn-primary" style="font-size:22px" name="save" value="Save">
+              {% csrf_token %}
+              </form>
+            </div>
+            {% else %}
+            <div id="edit_div" style="float:right">
+              <form action="/munchndrank/edit-recipe/{{recipe.id}}" method="post">
+              <input type="submit" class="btn btn-sm btn-primary" style="font-size:22px" name="edit" value="Edit">
+              {% csrf_token %}
+              </form>
+            </div>
+            {% endif %}
+              
+              <div>
+                <h1>{{ recipe }}</h1>
+                <p>Author = <a class="btn btn-lg btn-link" href="/munchndrank/profile/{{recipe.curr_author}}" name="Search" role="button">{{ recipe.curr_author}}</a></p>
+                <span>
+                {% if recipe.avg_rating %}
+                  Average Rating: {{ recipe.avg_rating|stringformat:".3f" }}
+                {% endif %}
+                </span>
+                <span class='rateit' data-recipeid="{{recipe.id}}"
+                {% if recipe.user_rating %}
+                  data-rateit-ispreset="True"
+                  data-rateit-value="{{ recipe.user_rating }}"
+                {% endif %}>
+                </span>
+              </div>
+              <br>
+
+              <img src="/munchndrank/recipephoto/{{recipe.id}}" alt="{{form.name.value}}" height="300px" width="400px" align="center" style="border:1px solid black">
+
+              <br>
+              <br>
+              <div class="panel panel-default">
+                <div class="panel-body">
+                <div><h2>Ingredients:</h2></div>
+             <!-- <form> -->
+                <input id="changeservings" style="float:right" class="btn btn-default" value="Change">
+                <p style="float:right">Makes <input id="servings" type="text" value="{{ recipe.serves_num }}" style="width:3em" maxlength="2" class="form-control"> Servings</p>
+                <input type="hidden" value="{{recipe.serves_num}}" id="nserv">
+             <!-- </form>-->
+                <div>
+                  <table id="ingredient_list">
+                  {% for v,u,i in ingredients %}
+                  <tr>
+                <td class="ing_val"> {{v}} &nbsp</td>
+                <td> {{u}} &nbsp</td>
+                <td> {{i}} </td>
+                  </tr>
+                {% endfor %}
+                  </table>
+              </div>
+                </div>
+              </div>
+              <p></p>
+              <p></p>
+              <div class="panel panel-default">
+                <div class="panel-body">
+                <div><h2>Instructions:</h2></div>
+                <div>
+                {{ recipe.instructions }}
+               </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+          <div class="list-group" style="position:fixed">
+            <div id="suggestionDiv">
+            <!-- hard coded to test -->
+            <p class="list-group-item">Remove chicken fat</p>
+            <p class="list-group-item">Cook until well done</p>
+
+            {% for s in suggestions %}
+            <p class="list-group-item">{{s.author.name}}: {{s.text}}</p>
+            {% endfor %}
+            </div>
+            <p><p>
+            <form action="/munchndrank/suggestion/{{recipe.id}}" method="post">
+            <p><textarea rows="4" cols="20" name='suggestion' placeholder="Write suggestion here..." ></textarea>
+              <input type="submit" class="btn btn-sm btn-default" name="post_s" value="Add"></p>
+            {% csrf_token %}
+            <form>
+          </div>
+        </div>
+
+      </div><!--/row-->
+{% endblock content %}

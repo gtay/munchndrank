@@ -1,0 +1,44 @@
+.star1 {
+width:126px;
+height:126px;
+background:url(images/gray_star.png) no-repeat;
+}
+.star2 {
+width:126px;
+height:126px;
+background:url(images/gray_star.png) no-repeat;
+margin-left:126px;
+}
+.star3 {
+width:126px;
+height:126px;
+background:url(images/gray_star.png) no-repeat;
+margin-left:126px;
+}
+.star4 {
+width:126px;
+height:126px;
+background:url(images/gray_star.png) no-repeat;
+margin-left:126px;
+}
+.star5 {
+width:126px;
+height:126px;
+background:url(images/gray_star.png) no-repeat;
+margin-left:126px;
+}
+.star1:hover {
+background:url(images/gold_star.png) no-repeat;
+}
+.star2:hover {
+background:url(images/gold_star.png) no-repeat;
+}
+.star3:hover {
+background:url(images/gold_star.png) no-repeat;
+}
+.star4:hover {
+background:url(images/gold_star.png) no-repeat;
+}
+.star5:hover {
+background:url(images/gold_star.png) no-repeat;
+}

@@ -1,0 +1,42 @@
+{% extends 'yum/base_withlogin.html' %}
+{% block title %}
+Search Results
+{% endblock title %}
+
+{% block content %}
+      <div class="page-header">
+        <h1></h1>
+      </div>
+      <p></p>
+         <div class="page-header">
+        <h2>Search Results:</h2>
+      </div>
+      
+      {% for error in errors %}
+      <p style="color:Red">{{error}}</p>
+      {% endfor %}
+
+      <p></p>
+      {% for r in recipes %}
+          {% if r.drink_flag %}
+          <div class="panel panel-primary">
+            <div class="panel-body">
+              <form action="/munchndrank/recipe/{{r.id}}" method="post">
+              <input type="submit" class="btn btn-sm btn-link" style="font-size:22px" name="recipe" value="{{r}}">
+              {% csrf_token %}
+              </form>
+            </div>
+          </div>
+          {% else %}
+          <div class="panel panel-warning">
+            <div class="panel-body">
+              <form action="/munchndrank/recipe/{{r.id}}" method="post">
+              <input type="submit" class="btn btn-sm btn-link" style="font-size:22px" name="recipe" value="{{r}}">
+              {% csrf_token %}
+              </form>
+            </div>
+          </div>
+          {% endif %}
+      {% endfor %}
+
+{% endblock content %}

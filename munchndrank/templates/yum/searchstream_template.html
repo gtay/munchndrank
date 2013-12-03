@@ -1,0 +1,15 @@
+{% for user in users %}
+  <div id = "stream-{{ user.id }}-div">
+    {{ user.name }}  
+    <button class="btn btn-default btn-small follow-stream-btn">
+      {% if user.followed %}
+        Unfollow
+      {% else %}
+        Follow
+      {% endif %}
+    </button>
+    <input type="hidden" class="user_id" value="{{user.id}}">
+    <input type="hidden" class="is_followed" value="{{user.followed}}">
+  <div>
+{% endfor %}
+

@@ -1,0 +1,63 @@
+{% extends 'yum/base_withlogin.html' %}
+
+{% block title %}
+Recipe Book
+{% endblock title %}
+
+{% block content %}
+        <!-- Jumbotron -->
+      <div class="jumbotron">
+        <h1>{{user}}'s Recipe Book</h1>
+        <a href="#search" type="submit" style="float:right" class="btn btn-default">Search</a>
+
+        <input type="search" size="10" style="float:right; width:200px;" placeholder="Search within..." class="form-control">
+        <table id="Food">
+          <thead>
+          <tr><h2>Food:</h2></tr>
+          </thead>
+        <tbody>
+          {% for error_f in errors_f %}
+          <tr><td><p style="color:red">
+          {{error_f}}
+          </p></td></tr>
+          {% endfor %}
+          {% for f in food %}
+          <tr><td>
+            <form action="/munchndrank/recipe/{{f.id}}" method="post">
+            <input type="submit" class="btn btn-sm btn-link" style="font-size:22px" name="recipe" value="{{f}}">
+            {% csrf_token %}
+            </form>
+          </td><td><p>&nbsp;</p></td><td>
+            <img src="http://www.clker.com/cliparts/9/h/1/g/u/T/five-star-rating-th.png" alt="rating"></td>
+            <td>
+            </td>
+          </tr>
+
+          {% endfor %}
+          </tbody>
+      </table>
+        <table id="Drink">
+          <thead>
+          <tr><h2>Drinks:</h2></tr>
+          </thead>
+        <tbody>
+          {% for error_d in errors_d %}
+          <tr><td><p style="color:red">
+          {{error_d}}
+          </p></td></tr>
+          {% endfor %}
+          {% for d in drink %}
+          <tr><td>
+            <form action="/munchndrank/recipe/{{d.id}}" method="post">
+            <input type="submit" class="btn btn-sm btn-link" style="font-size:22px" name="recipe" value="{{d}}">
+            {% csrf_token %}
+            </form>
+          </td><td>
+            <p style="color:White">&nbsp;</p></td><td>
+            <img src="http://www.clker.com/cliparts/9/h/1/g/u/T/five-star-rating-th.png" alt="rating">
+          </td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+{% endblock content %}

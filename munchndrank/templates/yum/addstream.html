@@ -1,0 +1,42 @@
+{% extends 'yum/base_withlogin.html' %}
+
+{% block content %}
+    <!-- Main jumbotron for registration -->
+    <div class="jumbotron">
+      <div class="container">
+         <div class="page-header">
+           <h2>Add Streams</h2>
+         </div>
+
+         <div>
+          <div class="input-group">
+            <input type='text' class='form-control' id='searchStreamTextField'>
+            <span class='input-group-btn'>
+              <input type='button' class='btn btn-default btn-small' id='searchStreamBtn' value='Locate Stream'>
+            </span>
+          </div>
+         </div>
+
+         <div>
+           <h3 id="search_results_header">Suggestions</h3>
+           <div id="search_results_div">
+              {% for user in users %}
+                <div id = "stream-{{ user.id }}-div">
+                  {{ user.name }}  
+                  <button class="btn btn-default btn-small follow-stream-btn">
+                    {% if user.followed %}
+                      Unfollow
+                    {% else %}
+                      Follow
+                    {% endif %}
+                  </button>
+                  <input type="hidden" class="user_id" value="{{user.id}}">
+                  <input type="hidden" class="is_followed" value="{{user.followed}}">
+                <div>
+              {% endfor %}
+           </div>
+         </div>
+      
+    </div> <!-- /container -->
+    </div>
+{% endblock content %}

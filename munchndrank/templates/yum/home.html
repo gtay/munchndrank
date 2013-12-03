@@ -1,0 +1,65 @@
+{% extends 'yum/base_withlogin.html' %}
+
+{% block title %}
+Munch N Drank
+{% endblock title %}
+
+{% block home %}<li class="active"><a href="/munchndrank/home">Home</a></li>{% endblock home %}
+
+{% block content %}
+       <!-- Carousel
+    ================================================== -->
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="item active">
+          <img src="http://2.bp.blogspot.com/_fogL-F6jDxo/S-hrZYJixBI/AAAAAAAABoQ/H2y1p4in8lk/s1600/steak.jpg" style="width:1500px; height:500px;" alt="First slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>What's on your mind?</h1>
+              <p class="lead">Dream of that perfect dish? Record it and share it.</p>
+              <p><a class="btn btn-lg btn-primary" href="/munchndrank/recipe-editor" role="button">Post A New Recipe &raquo;</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="http://25.media.tumblr.com/tumblr_mc8ie7BJ2S1rqu6f3o1_1280.jpg" style="width:1500px; height:500px;" alt="Second slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Recipe Book</h1>
+              <p class="lead">It's all yours, but it's nice to share :)</p>
+              <p><a class="btn btn-lg btn-primary" href="/munchndrank/recipebook" role="button">Go to Recipe Book &raquo;</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="http://www.americanhealthandwellnesscenter.com/images/groceries-online-600x399.jpg" style="width:1500px; height:500px;" alt="Third slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Food in the Fridge?</h1>
+              <p class="lead">They are just waiting to be cooked and eaten. Well, get on with it.</p>
+              <p><a class="btn btn-lg btn-primary" href="/munchndrank/search" role="button">Search &raquo;</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="http://24.media.tumblr.com/tumblr_m89kj5QXhG1rqu6f3o1_1280.jpg" style="width:1500px; height:500px;" alt="Fourth slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>I'm feeling hungry</h1>
+              <p class="lead">Are you? Try your luck, it might satisfy</p>
+              <p><a class="btn btn-lg btn-primary" href="/munchndrank/top-recipe" role="button">Random Recipe of the Day &raquo;</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div><!-- /.carousel -->
+
+{% endblock content %}

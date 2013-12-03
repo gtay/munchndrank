@@ -1,0 +1,25 @@
+{% extends 'yum/base_withoutlogin.html' %}
+
+{% block content %}
+<div class="alert alert-success">
+   <p style="font-size:20px">Thank you for confirming your email address.</p>
+</div>
+
+{% if form.errors %}
+	<div class="alert alert-danger">
+   <strong>Incorrect username and password</strong>
+</div>
+{% endif %}
+
+      <form method="post" action="{% url 'django.contrib.auth.views.login' %}" class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+
+        
+<div class="form-control">
+  <input type="submit" class="btn btn-success" value="Login" />
+  {% csrf_token %}
+      </form>
+     <a href="/munchndrank/password_reset/" class="btn btn-link">Forgot Password</a>
+</div>
+
+{% endblock content %}

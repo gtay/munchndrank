@@ -1,0 +1,95 @@
+{% extends 'yum/base_withlogin.html' %}
+
+{% block title %}
+Recipe Book
+{% endblock title %}
+
+{% block rpbk %}<li class="active"><a href="/munchndrank/recipebook">Recipe Book</a></li>{% endblock rpbk %}
+
+{% block content %}
+        <!-- Jumbotron -->
+      <div class="jumbotron">
+        <h1>Recipe Book</h1>
+        <a href="#search" type="submit" style="float:right" class="btn btn-default">Search</a>
+
+        <input type="search" size="10" style="float:right; width:200px;" placeholder="Search within..." class="form-control">
+        <table id="Food">
+          <thead>
+          <tr><h2>Food:</h2></tr>
+          </thead>
+        <tbody>
+          {% for error_f in errors_f %}
+          <tr><td><p style="color:red">
+          {{error_f}}
+          </p></td></tr>
+          {% endfor %}
+          {% for f in food %}
+          <tr><td>
+            <form action="/munchndrank/recipe/{{f.id}}" method="post">
+            <input type="submit" class="btn btn-sm btn-link" style="font-size:22px" name="recipe" value="{{f}}">
+            {% csrf_token %}
+            </form>
+          </td><td><p>&nbsp;</p></td><td>
+            <span id='{{ f.id }}-avg-span'>
+              {% if f.avg_rating %}
+                Average Rating: {{ f.avg_rating|stringformat:".3f" }}
+              {% endif %}
+            </span>
+            <span class='rateit' data-recipeid="{{f.id}}"
+              {% if f.user_rating %}
+                data-rateit-ispreset="True"
+                data-rateit-value="{{ f.user_rating }}"
+              {% endif %}>
+            </span>
+            </td>
+            <td><p>&nbsp;</p></td>
+            <td><p>&nbsp;</p></td>
+            <td><p>&nbsp;</p></td>
+            <td>
+              <form action="/munchndrank/delete-recipe/{{f.id}}" method="post">
+              <button type="submit" class="btn btn-sm btn-default">
+              <span class="glyphicon glyphicon-remove"></span> </button>
+              {% csrf_token %}
+              </form>
+            </td>
+          </tr>
+
+          {% endfor %}
+          </tbody>
+      </table>
+        <table id="Drink">
+          <thead>
+          <tr><h2>Drinks:</h2></tr>
+          </thead>
+        <tbody>
+          {% for error_d in errors_d %}
+          <tr><td><p style="color:red">
+          {{error_d}}
+          </p></td></tr>
+          {% endfor %}
+          {% for d in drink %}
+          <tr><td>
+            <form action="/munchndrank/recipe/{{d.id}}" method="post">
+            <input type="submit" class="btn btn-sm btn-link" style="font-size:22px" name="recipe" value="{{d}}">
+            {% csrf_token %}
+            </form>
+          </td><td>
+            <p style="color:White">&nbsp;</p></td>
+            <td>
+            <span id='{{ d.id }}-avg-span'>
+              {% if d.avg_rating %}
+                Average Rating: {{ d.avg_rating|stringformat:".3f" }}
+              {% endif %}
+            </span>
+            <span class='rateit' data-recipeid="{{d.id}}"
+              {% if d.user_rating %}
+                data-rateit-ispreset="True"
+                data-rateit-value="{{ d.user_rating }}"
+              {% endif %}>
+            </span>
+          </td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+{% endblock content %}

@@ -1,0 +1,54 @@
+{% extends 'yum/base_withlogin.html' %}
+{% block title %}
+Food Stream
+{% endblock title %}
+
+{% block content %}
+<div class="jumbotron">
+      <div class="page-header">
+        <h2>Food Stream</h2>
+      </div>
+
+        <table id="Food">
+          <thead>
+          <tr></tr>
+          </thead>
+        <tbody>
+          {% for error_f in errors_f %}
+          <tr><td><p style="color:red">
+          {{error_f}}
+          </p></td></tr>
+          {% endfor %}
+          {% for f in food %}
+          <tr>
+            <td>
+              <form action="/munchndrank/recipe/{{f.id}}" method="post">
+              <input type="submit" class="btn btn-sm btn-link" style="font-size:22px" name="recipe" value="{{f}}">
+              {% csrf_token %}
+              </form>
+            </td>
+            <td><p>&nbsp;</p></td>
+            <td>
+            <span id='{{ f.id }}-avg-span'>
+              {% if f.avg_rating %}
+                Average Rating: {{ f.avg_rating|stringformat:".3f" }}
+              {% endif %}
+            </span>
+            <span class='rateit' data-recipeid="{{f.id}}"
+              {% if f.user_rating %}
+                data-rateit-ispreset="True"
+                data-rateit-value="{{ f.user_rating }}"
+              {% endif %}>
+            </span>
+            </td>
+            <td><p>&nbsp;</p></td>
+            <td><p>&nbsp;</p></td>
+            <td><p>&nbsp;</p></td>
+            <td></td>
+          </tr>
+
+          {% endfor %}
+          </tbody>
+      </table>
+</div> <!-- jumbotron -->
+{% endblock content %}

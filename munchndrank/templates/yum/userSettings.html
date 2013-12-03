@@ -1,0 +1,49 @@
+{% extends 'yum/base_withlogin.html' %}
+
+{% block title %}
+User Settings
+{% endblock title %}
+
+{% block setting %}<li class="active"><a href="/munchndrank/user-settings">Settings</a></li>{% endblock setting %}
+
+{% block content %}
+ <div class="container">
+<div class="jumbotron">
+	<h1>User Settings</h1>
+{% for error in form.non_field_errors %}
+        <p style="color: red">
+        {{ error }}
+        </p>
+        {% endfor %}
+
+      <form method="post" action="{% url 'django.contrib.auth.views.password_change' %}" class="form-signin">
+        <h2 class="form-signin-heading">Change password here</h2>
+
+
+<table class="form-group">
+  <tr>
+    {% for field in form.visible_fields %}
+  <div class="form-group">
+          <td>{{field.label_tag}}:</td>
+          <td>{{field}}</td>
+          <td style="color: red">{{field.errors}}</td>
+  </div>
+  </tr>
+    {% endfor %}
+  </table>
+
+
+ {% for field in form.hidden_fields %}
+ {{field}}
+ {% endfor %}
+
+
+	<input type="submit" class="btn btn-success" value="Submit" />
+
+        <input type="hidden" name="next" value="{{ next }}" />
+	{% csrf_token %}
+      </form>
+</div> 
+</div> <!-- /container -->
+
+{% endblock %}

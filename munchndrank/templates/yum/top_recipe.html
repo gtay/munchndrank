@@ -1,0 +1,72 @@
+{% extends 'yum/base_withlogin.html' %}
+
+{% block title %}
+Top Recipe
+{% endblock title %}
+
+{% block trep %}<li class="active"><a href="/munchndrank/top-recipe">Top Recipes</a></li>{% endblock trep %}
+
+{% block content %}
+      
+      <div class="page-header">
+        <h1></h1>
+      </div>
+      <p></p>
+   <div class="jumbotron" style="background-image: url(http://24.media.tumblr.com/8834322a7f7bcc77b351256543246079/tumblr_mnso3rgapJ1rqu6f3o1_500.jpg); width:500px; height:350px; margin:0px auto;">
+        <h1 style="color:White; outline:#ff0000 thick;">Beef Brisket</h1>
+        <p class="lead"><img src="http://www.clker.com/cliparts/9/h/1/g/u/T/five-star-rating-th.png" alt="rating"></p>
+        <p><a class="btn btn-lg btn-danger" href="/munchndrank/recipe" role="button">Go to Recipe</a></p>
+      </div>
+
+      <div class="page-header">
+        <h2>Recommended Recipes:</h2>
+      </div>
+
+      <div class="row marketing">
+
+        <div class="col-lg-6">
+          <div class="panel panel-danger">
+            <div class="panel-body">
+              <h4><a class="btn btn-sm btn-link" style="font-size:22px" role="button">Apple Pie</a><img src="http://www.clker.com/cliparts/9/h/1/g/u/T/five-star-rating-th.png" alt="rating"></h4>
+            </div>
+          </div>
+
+          <div class="panel panel-danger">
+            <div class="panel-body">
+              <h4><a class="btn btn-sm btn-link" style="font-size:22px" role="button">Steak Diane</a><img src="http://www.clker.com/cliparts/9/h/1/g/u/T/five-star-rating-th.png" alt="rating"></h4>
+   
+            </div>
+          </div>
+
+          <div class="panel panel-danger">
+            <div class="panel-body">
+              <h4> <a class="btn btn-sm btn-link" style="font-size:22px" role="button">Avocado Fries</a><img src="http://www.clker.com/cliparts/9/h/1/g/u/T/five-star-rating-th.png" alt="rating"></h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="panel panel-danger">
+            <div class="panel-body">
+              <h4><a class="btn btn-sm btn-link" style="font-size:22px" role="button">Apple Cider</a> <img src="http://www.clker.com/cliparts/9/h/1/g/u/T/five-star-rating-th.png" alt="rating"></h4>
+
+            </div>
+          </div>
+
+          <div class="panel panel-danger">
+            <div class="panel-body">
+              <h4><a class="btn btn-sm btn-link" style="font-size:22px" role="button">Long Island Ice Tea</a> <img src="http://www.clker.com/cliparts/9/h/1/g/u/T/five-star-rating-th.png" alt="rating"></h4>
+
+            </div>
+          </div>
+
+          <div class="panel panel-danger">
+            <div class="panel-body">
+              <h4><a class="btn btn-sm btn-link" style="font-size:22px" role="button">Mai Tai</a> <img src="http://www.clker.com/cliparts/9/h/1/g/u/T/five-star-rating-th.png" alt="rating"></h4>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+
+ {% endblock content %}

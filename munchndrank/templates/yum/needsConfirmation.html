@@ -1,0 +1,11 @@
+{% extends 'yum/base_withoutlogin.html' %}
+
+{% block content %}
+    <!-- Main jumbotron for registration -->
+    <div class="jumbotron">
+      <div class="container">
+<p style="font-size:20px">A confirmation email has been sent to {{email}}.</p>
+<p style="font-size:20px">Please click the link in that email to confirm your email address and complete your registration</p>
+    </div> <!-- /container -->
+    </div>
+{% endblock content %}

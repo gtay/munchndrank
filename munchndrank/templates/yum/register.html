@@ -1,0 +1,35 @@
+{% extends 'yum/base_withoutlogin.html' %}
+{% block content %}
+    <!-- Main jumbotron for registration -->
+    <div class="jumbotron">
+      <div class="container">
+      	{% for error in form.non_field_errors %}
+        <p style="color: red">
+        {{ error }}
+        </p>
+        {% endfor %}
+
+        <h1>Hello, stranger!</h1>
+        <p>If you don't have an account, you can create one below:</p>
+
+        <form method="post" action="{% url 'register' %}">
+  <table class="form-group">
+  <tr>
+    {% for field in form.visible_fields %}
+  <div class="form-group">
+          <td>{{field.label_tag}}</td>
+          <td class="form-control">{{field}}</td>
+          <td style="color: red">{{field.errors}}</td>
+  </div>
+  </tr>
+    {% endfor %}
+  </table>
+    {% for field in form.hidden_fields %}
+    <td class="form-control">{{field}}</td>
+    {% endfor %}
+  <input type="submit" class="btn btn-info" value="Register" />
+  {% csrf_token %}
+  </form>
+      </div>
+    </div>
+{% endblock content %}

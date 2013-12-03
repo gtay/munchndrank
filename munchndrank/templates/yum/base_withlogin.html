@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}Munch N Drank{% endblock title %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/sticky-footer-navbar.css" rel="stylesheet">
+   <!-- <link href="/static/css/autocomplete.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/black-tie/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/rateit.css" type="text/css">
+
+  </head>
+
+  <body>
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+
+      <!-- Fixed navbar -->
+      <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Munch N Drank</a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+{% block home %}<li><a href="/munchndrank/home">Home</a></li>{% endblock home %}
+{% block rpbk %}<li><a href="/munchndrank/recipebook">Recipe Book</a></li>{% endblock rpbk %}
+{% block trep %}<li><a href="/munchndrank/top-recipe">Top Recipes</a></li>{% endblock trep %}
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Streams<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/munchndrank/addstream">Add New Stream</a></li>
+                  <li class="divider"></li>
+                  <li><a href="/munchndrank/foodstream">Food Stream</a></li>
+                  <li><a href="/munchndrank/drinkstream">Drink Stream</a><li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Actions<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+{% block c_rp %}<li><a href="/munchndrank/recipe-editor">Create New Recipe</a></li>{% endblock c_rp %}
+                  <li class="divider"></li>
+                  <li class="dropdown-header">Account</li>
+{% block profile %}<li><a href="/munchndrank/userprofile">Profile</a></li>{% endblock profile %}
+{% block setting %}<li><a href="/munchndrank/user-settings">Settings</a></li>{% endblock setting %}
+                </ul>
+              </li>
+            </ul>
+            <form class="navbar-form navbar-right" action="/munchndrank/searchbyname" method="post">
+              <div class="form-group">              
+                <input type="text" name='search_term' placeholder="Search For..." class="form-control">
+              </div>
+              <button type="submit" class="btn btn-success">Search</button>
+              <a href="/munchndrank/logout" class="btn btn-default">Log Out</a>
+              {% csrf_token %}
+            </form>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+      <!-- Begin page content -->
+      <div class="container">
+        <!-- Jumbotron -->
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted credit">&copy; Munch 'N Drank 2013</p>
+      </div>
+    </div>
+
+    <input type='hidden' name='csrfmiddlewaretoken' value='{{ csrf_token }}'>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/mnd.js"></script>
+    <script src="/static/js/jquery.rateit.min.js"></script>
+{% block jquery %}
+{% endblock jquery %}
+
+  </body>
+</html>

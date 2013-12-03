@@ -1,0 +1,36 @@
+{% extends 'yum/base_withlogin.html' %}
+
+{% block title %}
+Edit Profile
+{% endblock title %}
+
+{% block profile %}<li class="active"><a href="/munchndrank/profile">Profile</a></li>{% endblock profile %}
+
+{% block content %}
+          <div class="jumbotron">
+            <div class"row-fluid">
+              <div class="span4">
+                {% block user_photo %} 
+                 <img src="{% url 'photo' %}" alt="{{form.name.value}}" height="250px" width="250px" float="left" style="border:5px solid black">
+               {% endblock %}
+              </div>
+              <br>
+              <form enctype="multipart/form-data" action="{% url 'editprofile' %}" method="post">
+              <input type="submit" style="background-color:Blue; border:3px #eeeeee; float:right" class="btn btn-success" value="Save">
+              
+              <div class="span4">
+              <!--  <h1><input type="text" name="curr_name" value="{{ name }}"></h1>
+                <p>Info: <textarea rows="5" cols="70" name="curr_info">{{ info }}</textarea></p> -->
+                <table>
+                {{form}}
+              </table>
+              </div>
+
+    {% csrf_token %}
+        </form>
+
+
+            </div>
+
+          </div>
+{% endblock content %}

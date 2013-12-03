@@ -1,0 +1,46 @@
+{% extends 'yum/base_withlogin.html' %}
+
+{% block title %}
+Munch N Drank
+{% endblock title %}
+
+{% block content %}
+        <!-- Jumbotron -->
+      <div class="jumbotron">
+        <h1>Post a Recipe</h1>
+        <p></p>
+      <div>
+        <h2>Recipe Name:</h2><input id="recipe_name" name="recipe_name" type="text" class="form-control">
+      </div>
+      <!-- can change to form as appropriate -->
+      <div id="food_type">
+      <input type="radio" name="type" id='isFood' value="Food" checked>Food
+      <input type="radio" name="type" id='isDrink' value="Drink">Drink
+    </div>
+    <p>Serving Size: <input type="text" id="servefield" class="form-control" size="3"></p>
+    <!--<br>-->
+        <table id="t_ingredient">
+          <thead>
+          <tr><h2>Ingredients:</h2></tr>
+          </thead>
+        <tbody>
+          <tr class='reciperow'>
+            <td><input type="text" placeholder="Quantity e.g. 2" class="form-control qtyfield"></td>
+            <td><input type="text" placeholder="Units e.g. pounds" class="form-control metricfield"></td>
+            <td><input type="text" placeholder="e.g. Chicken" class="form-control foodfield"></td>
+          </tr>
+          </tbody>
+          <tr><td><a class="btn btn-sm btn-danger" id="Add" role="button">Add another ingredient</a></td></tr>
+      </table>
+        <table>
+          <tr></tr>
+          <tr><td><h2>Instructions:</h2></td></tr>
+          <tr><td><textarea rows="4" cols="10" id='instrfield'></textarea></td></tr>
+          <tr></tr>
+          <tr></tr>
+        </table>
+      </div>
+      <p>
+        <input type='button' class="btn btn-lg btn-success" id='postRecipeBtn' value="Save">
+      </p>
+{% endblock content %}

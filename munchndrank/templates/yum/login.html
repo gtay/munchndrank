@@ -1,0 +1,67 @@
+{% extends 'yum/base_withoutlogin.html' %}
+
+{% block style %}
+<style>
+img.bg {
+      /* Set rules to fill background */
+      min-height: 100%;
+      min-width: 1024px;
+      
+      /* Set up proportionate scaling */
+      width: 100%;
+      height: auto;
+      
+      /* Set up positioning */
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+    
+    @media screen and (max-width: 1024px){
+      img.bg {
+        left: 50%;
+        margin-left: -512px; }
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+<img src="/static/site/placemat.jpg" class="bg">
+
+{% if form.errors %}
+  <div class="alert alert-danger">
+   <strong>Incorrect username and password</strong>
+</div>
+{% endif %}
+
+      <form method="post" action="{% url 'django.contrib.auth.views.login' %}" class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+
+        
+<div class="form-control">
+  {% if form.errors %}
+  <div class="alert alert-danger">
+   <strong>Incorrect username and password</strong>
+</div>
+{% endif %}
+  <h2 align="center">Log in</h2>
+  <br>
+  <table>
+  <tr>
+      <td>{{ form.username.label_tag }} </td>
+      <td>{{ form.username }}</td>
+  </tr>
+  <tr>
+      <td>{{ form.password.label_tag }} </td>
+      <td>{{ form.password }}</td>
+  </tr>
+  </table>
+  <input type="submit" class="btn btn-success" value="Login" />
+  <a href="/munchndrank/register">Register</a>
+        <input type="hidden" name="next" value="{{ next }}" />
+  {% csrf_token %}
+      </form>
+     <a href="/munchndrank/password_reset/" class="btn btn-link">Forgot Password</a>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends 'yum/base_withlogin.html' %}
+{% block title %}
+Top Recipes
+{% endblock title %}
+
+{% block content %}
+      <div class="page-header">
+        <h1></h1>
+      </div>
+      <p></p>
+   
+         <div class="page-header">
+        <h2>Search Results:</h2>
+      </div>
+      <p style="color:Red">No Recipes can be found..why don't you try and upload one?</p>
+
+      {% for r in recipes %}
+          {% if r.drink_flag %}
+          <div class="panel panel-primary">
+            <div class="panel-body">
+              {{r}}
+            </div>
+          </div>
+          {% else %}
+          <div class="panel panel-warning">
+            <div class="panel-body">
+              {{r}}
+            </div>
+          </div>
+          {% endif %}
+      {% endfor %}
+      
+      <p></p>
+
+{% endblock content %}

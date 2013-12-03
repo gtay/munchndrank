@@ -1,0 +1,96 @@
+{% extends 'yum/base_withlogin.html' %}
+{% block title %}
+Munch N Drank
+{% endblock title %}
+{% block content %}
+        
+      <div class="page-header">
+        <h1></h1>
+      </div>
+      
+   <div class="row row-offcanvas row-offcanvas-right">
+
+      <div id="recipebody" class="col-xs-12 col-sm-9">
+          <p class="pull-right visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+
+         <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">{% if recipe.drink_flag = 1 %} Drink {% else %} Food {% endif %}</h3>
+            </div>
+            <div class="panel-body">
+
+<!--            <div id="share_div" style="float:right">
+              <form action="#" method="post">
+              <input type="submit" class="btn btn-sm btn-warning" style="font-size:22px" name="share" value="Share">
+              {% csrf_token %}
+              </form>
+            </div> -->
+
+              <!-- if in recipe book - (checked in backend) then this button shouldn't appear -->
+            
+            <div id="save_div" style="float:right">
+              <input type="button" class="btn btn-sm btn-primary" style="font-size:22px" id="editRecipeBtn" value="Save">
+              <input type="hidden" id="recipeid" value="{{recipe.id}}">
+            </div>
+            
+
+              
+              <div>
+              <h1><input id="recipe_name" name="recipe_name" type="text" value="{{ recipe }}" class="form-control"></h1>
+
+              </div>
+              <br>
+
+              <img src="/munchndrank/recipephoto/{{recipe.id}}" alt="{{form.name.value}}" height="300px" width="400px" align="center" style="border:1px solid black">
+              <br>
+              <form enctype="multipart/form-data" action="/munchndrank/edit-recipe/{{recipe.id}}" method = "post">
+            <table>
+              {{form}}
+            </table>
+                <input type="submit" class="btn btn-lg btn-default" value="Change">
+            {% csrf_token %}
+              </form>
+
+              <br>
+                  <p>Serving Size: <input type="text" id="servefield" class="form-control" size="3" value="{{recipe.serves_num}}"></p>
+              <br>
+              <br>
+              <div class="panel panel-default">
+                <div class="panel-body">
+                
+                <table id="t_ingredient">
+          <thead>
+          <tr><h2>Ingredients:</h2></tr>
+          </thead>
+        <tbody>
+          {% for v,u,i in ingredients %}
+          <tr class='reciperow'>
+            <td><input type="text" class="form-control qtyfield" value="{{v}}"></td>
+            <td><input type="text" class="form-control metricfield" value="{{u}}"></td>
+            <td><input type="text" class="form-control foodfield" value="{{i}}"></td>
+          </tr>
+          {% endfor %}
+          </tbody>
+          <tr><td><a class="btn btn-sm btn-danger" id="Add" role="button">Add another ingredient</a></td></tr>
+      </table>
+                </div>
+              </div>
+              <p></p>
+              <p></p>
+              <div class="panel panel-default">
+                <div class="panel-body">
+                <div><h2>Instructions:</h2></div>
+                <div>
+                <textarea rows="4" cols="50" id='instrfield'>{{recipe.instructions}}</textarea>
+               </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div><!--/row-->
+{% endblock content %}

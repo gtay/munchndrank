@@ -1,0 +1,30 @@
+{% extends 'yum/base_withlogin.html' %}
+
+{% block title %}
+Munch N Drank
+{% endblock title %}
+
+{% block content %}
+        <!-- Jumbotron -->
+      <div class="jumbotron">
+        <div id="contents" align="center">
+          <h2>Would you like to upload a picture?</h2>
+          <p>{{recipe}}</p>
+          <br>
+           <img src="{% url 'recipepic' %}" alt="{{form.name.value}}" height="250px" width="250px" align="center" style="border:1px solid black">
+          <br>
+          <br>
+         <form enctype="multipart/form-data" action="{% url 'recipephoto' %}" method = "post">
+            <table>
+              {{form}}
+            </table>
+                <input type="submit" class="btn btn-lg btn-default" value="Upload">
+        {% csrf_token %}
+        </form>
+        </div>
+
+      </div>
+      <p>
+        <a href="/munchndrank/recipebook" class="btn btn-lg btn-success btn-block">Finish</a>
+      </p>
+{% endblock content %}

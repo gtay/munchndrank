@@ -1,0 +1,29 @@
+{% extends 'yum/base_withlogin.html' %}
+
+{% block title %}
+Munch N Drank
+{% endblock title %}
+
+{% block content %}
+
+        <!-- Jumbotron -->
+      <div class="jumbotron">
+        <h1>What do you feel like cooking with today?</h1>
+        <form action='/munchndrank/searchbyfood' method='post'>
+        <table id="s_ingredient">
+          <thead>
+          <tr><h2>Ingredients:</h2></tr>
+          </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" placeholder="e.g. Chicken" class="form-control" name="foodfield"></td>
+          </tr>
+          </tbody>
+          <tr><td><a class="btn btn-sm btn-danger" id="Add" role="button">Add another ingredient</a></td></tr>
+      </table>
+
+      </div>
+      <p><button type='submit' class="btn btn-lg btn-primary" name="Search">Search</button></p>
+      {% csrf_token %}
+      </form>
+{% endblock content %}
