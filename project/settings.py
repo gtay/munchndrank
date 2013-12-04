@@ -51,25 +51,18 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = '/media/'
+MEDIA_ROOT = PROJECT_ROOT + 'media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-S3_URL = 'http://s3.amazonaws.com/%s' # AWS_STORAGE_BUCKET_NAME
-MEDIA_URL = S3_URL + MEDIA_ROOT
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-AWS_ACCESS_KEY_ID = 'AKIAIJ6NWBSRHIUPKI3A'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'munchndrank'
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = '/static/'
+STATIC_ROOT = PROJECT_ROOT + 'static/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -140,7 +133,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'storages',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
