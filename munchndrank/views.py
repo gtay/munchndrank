@@ -253,11 +253,9 @@ def drinkstream(request):
   context = { 'drink':drink, 'errors_d':errors_d }
   return render(request, 'yum/drinkstream.html', context)
 
-@login_required
 def search_by_name(request):
 	# search by recipe name
   context = {}
-  user = MUser.objects.get(user=request.user);
   if not 'search_term' in request.POST or not request.POST['search_term']:
     return render(request, 'yum/search.html', {'errors':"Oops were you searching for something?"})
   search_name = request.POST['search_term']
@@ -269,10 +267,8 @@ def search_by_name(request):
   context = {'recipes':recipes, 'errors':errors}
   return render(request, 'yum/searchresults.html', context);
 
-@login_required
 def search_by_food(request):
   context = {}
-  user = MUser.objects.get(user=request.user);
   # 2nd by ingredient
   if not request.method == 'POST':
     return render(request, 'yum/searchresults.html', context);
@@ -351,7 +347,6 @@ def insert_food(foodName):
     new_food.save();
   return
 
-@login_required
 def recommend_nearest_recipe(request):
   # Given a recipe id, find n nearest recipes
   errors = [];
@@ -529,17 +524,28 @@ def recipe(request, id):
     ingrd.append(FoodWord.objects.get(id=i.col).name)
     unit.append(i.metrics)
   ingredients = zip(val, unit, ingrd)
-  if recipe.curr_author != MUser.objects.get(user=request.user):
+
+  if request.user.is_authenticated():
+    if recipe.curr_author != MUser.objects.get(user=request.user):
+      not_belong.append('NOPE')
+    
+    suggestions = Suggestion.objects.filter(recipe=recipe)
+    suggestions.order_by('-time_edited')
+  
+    (avg_rating,usr_rating) = get_recipe_rating(recipe, MUser.objects.get(name=request.user))
+    if not avg_rating < 0:
+      recipe.avg_rating = avg_rating
+    if not usr_rating < 0:
+      recipe.user_rating = usr_rating
+  else:
     not_belong.append('NOPE')
-  
-  suggestions = Suggestion.objects.filter(recipe=recipe)
-  suggestions.order_by('-time_edited')
-  
-  (avg_rating,usr_rating) = get_recipe_rating(recipe, MUser.objects.get(name=request.user))
-  if not avg_rating < 0:
-    recipe.avg_rating = avg_rating
-  if not usr_rating < 0:
-    recipe.user_rating = usr_rating
+    suggestions = Suggestion.objects.filter(recipe=recipe)
+    suggestions.order_by('-time_edited')
+    (avg_rating,usr_rating) = get_recipe_rating(recipe, MUser.objects.get(name=request.user))
+    if not avg_rating < 0:
+      recipe.avg_rating = avg_rating
+    if not usr_rating < 0:
+      recipe.user_rating = usr_rating
   context={}
   context['recipe'] = recipe
   context['ingredients'] = ingredients
