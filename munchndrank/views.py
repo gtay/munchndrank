@@ -285,11 +285,16 @@ def search_by_food(request):
   dictsize = FoodWord.objects.all().count();
   for food in food_list:
     # if food in fooddict
-    check = FoodWord.objects.filter(name=food).exists();
+    check = FoodWord.objects.filter(name__icontains=food).exists();
     if check:
-      col = FoodWord.objects.get(name=food).id;
-      col_list.append(col);
-      searchvec[col] = 1;
+      #col = FoodWord.objects.get(name=food).id;
+      #col_list.append(col);
+      #searchvec[col] = 1;
+      food_words = FoodWord.objects.filter(name__icontains=food)
+      for f in food_words:
+        col = f.id;
+        col_list.append(col);
+        searchvec[col] = 1;
   # Aggregate by row
   rows = Matrix.objects.filter(col__in=col_list).values('row');
   rows = rows.annotate(num_count=Count('col'));
