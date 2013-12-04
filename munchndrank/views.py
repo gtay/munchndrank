@@ -612,7 +612,7 @@ def show_openbook(request,user):
   errors_d = []
   food = []
   drink = []
-  r_user = MUser.objects.get(id=user.id)
+  r_user = MUser.objects.get(user=user)
   try:
     r_book = Recipe.objects.filter(curr_author=r_user)
     if not r_book:
