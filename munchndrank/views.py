@@ -563,10 +563,6 @@ def get_recipe_photo(request,id):
   return HttpResponse(recipe.picture, mimetype=content_type)
 
 @login_required
-def changerecipe_photo(request):
-  return
-
-@login_required
 def delete_recipe(request,id):
   if request.POST:
     recipe = Recipe.objects.get(id=int(id))
