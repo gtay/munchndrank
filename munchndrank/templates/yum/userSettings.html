@@ -16,7 +16,7 @@ User Settings
         </p>
         {% endfor %}
 
-      <form method="post" action="{% url django.contrib.auth.views.password_change %}" class="form-signin">
+      <form method="post" action="{% url 'user-settings' %}" class="form-signin">
         <h2 class="form-signin-heading">Change password here</h2>
 
 
