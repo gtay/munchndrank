@@ -105,10 +105,6 @@ Munch N Drank
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
           <div class="list-group" style="position:fixed">
             <div id="suggestionDiv">
-            <!-- hard coded to test -->
-            <p class="list-group-item">Remove chicken fat</p>
-            <p class="list-group-item">Cook until well done</p>
-
             {% for s in suggestions %}
             <p class="list-group-item">{{s.author.name}}: {{s.text}}</p>
             {% endfor %}
