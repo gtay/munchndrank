@@ -74,7 +74,7 @@ def get_photo(request):
 
 @login_required
 def profile(request, user):
-    u = get_object_or_404(MUser, name=user)
+    u = get_object_or_404(MUser, id=user.id)
     user_name = u
     user_info = u.info
     context = {'name' : user_name, 'info' : user_info}

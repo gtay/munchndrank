@@ -607,12 +607,12 @@ def recipebook(request):
   context = { 'food':food, 'drink':drink, 'errors_d':errors_d, 'errors_f':errors_f }
   return render(request, 'yum/recipebook.html', context)
 
-def show_openbook(request,user):
+def show_openbook(request,id):
   errors_f = []
   errors_d = []
   food = []
   drink = []
-  r_user = MUser.objects.get(user=user)
+  r_user = MUser.objects.get(id=int(id))
   try:
     r_book = Recipe.objects.filter(curr_author=r_user)
     if not r_book:
