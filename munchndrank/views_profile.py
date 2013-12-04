@@ -74,7 +74,7 @@ def get_photo(request):
 
 @login_required
 def profile(request, user):
-    u = get_object_or_404(MUser, id=request.user.id)
+    u = get_object_or_404(MUser, id=user.id)
     user_name = u
     user_info = u.info
     context = {'name' : user_name, 'info' : user_info}
@@ -82,7 +82,7 @@ def profile(request, user):
 
 @login_required
 def get_prof_photo(request, user):
-    u = get_object_or_404(MUser, id=request.user.id)
+    u = get_object_or_404(MUser, id=user.id)
     if not u:
         raise Http404
 
