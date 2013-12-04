@@ -87,7 +87,17 @@ Recipe Book
                 data-rateit-value="{{ d.user_rating }}"
               {% endif %}>
             </span>
-          </td></tr>
+          </td>
+        <td><p>&nbsp;</p></td>
+            <td><p>&nbsp;</p></td>
+            <td><p>&nbsp;</p></td>
+            <td>
+              <form action="/munchndrank/delete-recipe/{{f.id}}" method="post">
+              <button type="submit" class="btn btn-sm btn-default">
+              <span class="glyphicon glyphicon-remove"></span> </button>
+              {% csrf_token %}
+              </form>
+            </td></tr>
           {% endfor %}
           </tbody>
         </table>
