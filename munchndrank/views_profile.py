@@ -30,24 +30,24 @@ from munchndrank.forms import *
 @login_required
 def ownprofile_info(request):
   try:
-    if not MUser.objects.filter(name=request.user):
+    if not MUser.objects.filter(id=request.user.id):
       user_name = request.user
       user_info = 'There is currently no other information available'
-      MUser(user=request.user, name=user_name, info=user_info).save()
+      MUser(id=request.user.id, name=user_name, info=user_info).save()
     else:
-      user_name = MUser.objects.get(name=request.user).name
-      user_info = MUser.objects.get(name=request.user).info
+      user_name = MUser.objects.get(id=request.user.id).name
+      user_info = MUser.objects.get(id=request.user.id).info
   except ObjectDoesNotExist:
     user_name = request.user
     user_info = 'There is currently no other information available'
-    MUser(user=request.user, name=user_name, info=user_info).save()
+    MUser(id=request.user.id, name=user_name, info=user_info).save()
   context = {'name':user_name, 'info':user_info}
   return render(request, 'yum/userprofile.html', context)
 
 @login_required
 @transaction.commit_on_success
 def edit_profile(request):
-    profile_to_edit = MUser.objects.get(name=request.user)
+    profile_to_edit = MUser.objects.get(id=request.user.id)
 
     if request.POST:
         form = ProfileForm(request.POST, request.FILES, instance=profile_to_edit)
@@ -65,7 +65,7 @@ def edit_profile(request):
 
 @login_required
 def get_photo(request):
-    prof = get_object_or_404(MUser, name=request.user)
+    prof = get_object_or_404(MUser, id=request.user.id)
     if not prof.picture:
         raise Http404
 
@@ -74,7 +74,7 @@ def get_photo(request):
 
 @login_required
 def profile(request, user):
-    u = get_object_or_404(MUser, name=user)
+    u = get_object_or_404(MUser, id=request.user.id)
     user_name = u
     user_info = u.info
     context = {'name' : user_name, 'info' : user_info}
@@ -82,7 +82,7 @@ def profile(request, user):
 
 @login_required
 def get_prof_photo(request, user):
-    u = get_object_or_404(MUser, name=user)
+    u = get_object_or_404(MUser, id=request.user.id)
     if not u:
         raise Http404
 

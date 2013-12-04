@@ -29,11 +29,11 @@ from munchndrank.forms import *
 
 @login_required
 def home(request):
-	# home view after log in
+  # home view after log in
   return render(request, 'yum/home.html', {})
 
 def top_recipe(request):
-	# top_recipe (don't need to log in)
+  # top_recipe (don't need to log in)
   return render(request, 'yum/top_recipe.html', {})
 
 # update rating for a given recipe and user_id
@@ -60,7 +60,7 @@ def update_rating(request):
     json_data = json.dumps(context);
     return HttpResponse(json_data, content_type='application/json');
 
-  muser = MUser.objects.get(name=request.user)
+  muser = MUser.objects.get(id=request.user.id)
   recipe = Recipe.objects.get(id=recipe_id)
   check = Rating.objects.filter(author=muser).filter(recipe=recipe).exists()
   if not check:
@@ -80,8 +80,10 @@ def update_rating(request):
   return HttpResponse(json_data, content_type='application/json');
 
 # Helper function for getting set of followed users
-def get_following_set(username):
-  following = MUser.objects.get(name=username).following.split(';')
+# @user_id current user id
+# returns the set of users which current user follows
+def get_following_set(user_id):
+  following = MUser.objects.get(id=user_id).following.split(';')
   following_set = set()
   for f in following:
     if not f == '':
@@ -90,6 +92,8 @@ def get_following_set(username):
 
 # Helper function to find the average rating for a recipe
 # returns 2-tuple (a,b)
+# @recipe = Recipe object
+# @muser = current MUser object 
 # a = avg_rating, -1.0 if not found
 # b = user_rating, -1.0 if not found
 def get_recipe_rating(recipe, muser):
@@ -111,11 +115,10 @@ def add_stream_page(request):
   # get a list of suggested streams and print to website
   # for now, we return the entire user list
   context = {}
-  #all_users = MUser.objects.all()
   user_id = int(MUser.objects.get(name=request.user).id)
   all_users = MUser.objects.all().exclude(id=user_id)
   users = []
-  following_set = get_following_set(request.user)
+  following_set = get_following_set(request.user.id)
   for u in all_users:
     user = {}
     user['name'] = u.name
@@ -151,8 +154,8 @@ def follow_stream(request):
     json_data = json.dumps(context);
     return HttpResponse(json_data, content_type='application/json');
 
-  muser = MUser.objects.get(name=request.user)
-  following_set = get_following_set(request.user)
+  muser = MUser.objects.get(id=request.user.id)
+  following_set = get_following_set(request.user.id)
   if not is_followed:
     following_set.add(user_id)
   else:
@@ -187,8 +190,8 @@ def search_stream(request):
     json_data = json.dumps(context);
     return HttpResponse(json_data, content_type='application/json');
   
-  following_set = get_following_set(request.user)
-  found_users = MUser.objects.filter(name__contains=search_term).exclude(name=request.user)
+  following_set = get_following_set(request.user.id)
+  found_users = MUser.objects.filter(name__contains=search_term).exclude(id=request.user.id)
   users = []
   for u in found_users:
     user = {}
@@ -207,9 +210,9 @@ def search_stream(request):
 def foodstream(request):
   errors_f = []
   food = []
-  muser = MUser.objects.get(name=request.user)
+  muser = MUser.objects.get(id=request.user.id)
   try:
-    following_list = list(get_following_set(request.user))
+    following_list = list(get_following_set(request.user.id))
     followed_users = MUser.objects.filter(id__in=following_list)
     r_book = Recipe.objects.filter(curr_author__in=followed_users)
     r_book = r_book.filter(drink_flag=False).order_by('-time_edited')
@@ -232,9 +235,9 @@ def foodstream(request):
 def drinkstream(request):
   errors_d = []
   drink = []
-  muser = MUser.objects.get(name=request.user)
+  muser = MUser.objects.get(id=request.user.id)
   try:
-    following_list = list(get_following_set(request.user))
+    following_list = list(get_following_set(request.user.id))
     followed_users = MUser.objects.filter(id__in=following_list)
     r_book = Recipe.objects.filter(curr_author__in=followed_users)
     r_book = r_book.filter(drink_flag=True).order_by('-time_edited')
@@ -253,9 +256,11 @@ def drinkstream(request):
   context = { 'drink':drink, 'errors_d':errors_d }
   return render(request, 'yum/drinkstream.html', context)
 
+@login_required
 def search_by_name(request):
-	# search by recipe name
+  # search by recipe name
   context = {}
+  user = MUser.objects.get(id=request.user.id);
   if not 'search_term' in request.POST or not request.POST['search_term']:
     return render(request, 'yum/search.html', {'errors':"Oops were you searching for something?"})
   search_name = request.POST['search_term']
@@ -267,9 +272,11 @@ def search_by_name(request):
   context = {'recipes':recipes, 'errors':errors}
   return render(request, 'yum/searchresults.html', context);
 
+@login_required
 def search_by_food(request):
   context = {}
-  # 2nd by ingredient
+  user = MUser.objects.get(id=request.user.id);
+  # By ingredient
   if not request.method == 'POST':
     return render(request, 'yum/searchresults.html', context);
   food_list = request.POST.getlist('foodfield');
@@ -307,6 +314,7 @@ def search_by_food(request):
   context['recipes'] = ranked_recipes;
   return render(request, 'yum/searchresults.html', context)
 
+@login_required
 def results_ingredients(request):
   recipes = []
   context = {'recipes':recipes}
@@ -340,6 +348,7 @@ def find_nearest_food(request):
   return HttpResponse(json_data, content_type='application/json');
 
 # Helper function to insert a new food into the food dictionary if no such entry exists
+# @foodName the string representing the food
 def insert_food(foodName):
   check = FoodWord.objects.filter(name=foodName).exists()
   if not check:
@@ -347,6 +356,7 @@ def insert_food(foodName):
     new_food.save();
   return
 
+@login_required
 def recommend_nearest_recipe(request):
   # Given a recipe id, find n nearest recipes
   errors = [];
@@ -377,8 +387,9 @@ def recommend_nearest_recipe(request):
   context['recipes'] = ranked_recipes;
   return render(request, 'yum/searchresults.html', context);
 
-# generate a dictionary where the key is the food_id and the value is the amt of that particular
-# food
+# generate a food dictionary for a given recipe
+# @recipe_id recipe id
+# returns a python dict:  the key is the food_id and the value is the amt of that particular food
 def genVector(recipe_id):
   elements = Matrix.objects.filter(row=recipe_id);
   vdict = {};
@@ -388,6 +399,8 @@ def genVector(recipe_id):
   return vdict;
 
 # generates the list of foods used for a given recipe
+# @recipe_id recipe id
+# returns a list of column number representing the food in the global food dictionary
 def genFoodList(recipe_id):
   elements = Matrix.objects.filter(row=recipe_id);
   food_list = [];
@@ -397,6 +410,8 @@ def genFoodList(recipe_id):
 
 # generates the list of neighboring recipes: defined here as any recipe that shares at least
 # one ingredient
+# @food_list list of column indices representing food
+# returns the list of Recipes which are the neighboring recipes
 def genNearbyRecipes(food_list):
   rows = Matrix.objects.filter(col__in=food_list).values('row');
   rows = rows.annotate(num_count=Count('col'));
@@ -409,7 +424,7 @@ def genNearbyRecipes(food_list):
 
 @login_required
 def save_recipe(request, id):
-  user = MUser.objects.get(user=request.user);
+  user = MUser.objects.get(id=request.user.id);
   saved_recipe = Recipe.objects.get(id=int(id))
   # generate a deep copy of the recipe for recipebook
   # id=None forces a new record to be made on save() 
@@ -436,7 +451,7 @@ def show_recipe_editor(request):
 @login_required
 def post_recipe(request):
   # this takes an ajax post and saves recipe to the db 
-	# post_recipe view after log in
+  # post_recipe view after log in
   errors = [];
   context = {};
   context['errors'] = errors;
@@ -446,7 +461,7 @@ def post_recipe(request):
     for food_item in food_list:
     # first save all the new food items
       insert_food(food_item['name']);
-    user = MUser.objects.get(user=request.user);
+    user = MUser.objects.get(id=request.user.id);
     new_recipe = Recipe(name=request.POST['recipe_name'],
                         orig_author = "",
                         curr_author=user,
@@ -481,7 +496,7 @@ def post_recipe(request):
 
 @login_required
 def recipe_photo(request):
-  recipe = Recipe.objects.filter(curr_author=MUser.objects.get(user=request.user))
+  recipe = Recipe.objects.filter(curr_author=MUser.objects.get(id=request.user.id))
   recipe = recipe.order_by('-id')[0]
   # page
   if request.POST:
@@ -503,7 +518,7 @@ def recipe_photo(request):
 # gets picture
 @login_required
 def recipepic(request):
-  recipe = Recipe.objects.filter(curr_author=MUser.objects.get(user=request.user))
+  recipe = Recipe.objects.filter(curr_author=MUser.objects.get(id=request.user.id))
   recipe = recipe.order_by('-id')[0]
   if not recipe.picture:
     raise Http404
@@ -524,28 +539,17 @@ def recipe(request, id):
     ingrd.append(FoodWord.objects.get(id=i.col).name)
     unit.append(i.metrics)
   ingredients = zip(val, unit, ingrd)
-
-  if request.user.is_authenticated():
-    if recipe.curr_author != MUser.objects.get(user=request.user):
-      not_belong.append('NOPE')
-    
-    suggestions = Suggestion.objects.filter(recipe=recipe)
-    suggestions.order_by('-time_edited')
-  
-    (avg_rating,usr_rating) = get_recipe_rating(recipe, MUser.objects.get(name=request.user))
-    if not avg_rating < 0:
-      recipe.avg_rating = avg_rating
-    if not usr_rating < 0:
-      recipe.user_rating = usr_rating
-  else:
+  if recipe.curr_author != MUser.objects.get(id=request.user.id):
     not_belong.append('NOPE')
-    suggestions = Suggestion.objects.filter(recipe=recipe)
-    suggestions.order_by('-time_edited')
-    (avg_rating,usr_rating) = get_recipe_rating(recipe, MUser.objects.get(name=request.user))
-    if not avg_rating < 0:
-      recipe.avg_rating = avg_rating
-    if not usr_rating < 0:
-      recipe.user_rating = usr_rating
+  
+  suggestions = Suggestion.objects.filter(recipe=recipe)
+  suggestions.order_by('-time_edited')
+  
+  (avg_rating,usr_rating) = get_recipe_rating(recipe, MUser.objects.get(id=request.user.id))
+  if not avg_rating < 0:
+    recipe.avg_rating = avg_rating
+  if not usr_rating < 0:
+    recipe.user_rating = usr_rating
   context={}
   context['recipe'] = recipe
   context['ingredients'] = ingredients
@@ -576,9 +580,9 @@ def recipebook(request):
   errors_d = []
   food = []
   drink = []
-  muser = MUser.objects.get(name=request.user)
+  muser = MUser.objects.get(id=request.user.id)
   try:
-    r_book = Recipe.objects.filter(curr_author=MUser.objects.filter(user = request.user))
+    r_book = Recipe.objects.filter(curr_author=muser)
     if not r_book:
       errors_f.append('There are no recipes in your book')
       errors_d.append('There are no recipes in your book')
@@ -608,7 +612,7 @@ def show_openbook(request,user):
   errors_d = []
   food = []
   drink = []
-  r_user = MUser.objects.get(name=user)
+  r_user = MUser.objects.get(id=request.user.id)
   try:
     r_book = Recipe.objects.filter(curr_author=r_user)
     if not r_book:
@@ -672,7 +676,7 @@ def save_edit(request):
     for food_item in food_list:
       insert_food(food_item['name'])
 
-    user = MUser.objects.get(user=request.user);
+    user = MUser.objects.get(id=request.user.id);
     recipe.name = request.POST['recipe_name']
     recipe.serves_num=int(request.POST['serves_num'])
     recipe.instructions=request.POST['instructions']
@@ -712,7 +716,7 @@ def suggestion(request, id):
   if len(errors) > 0:
     return redirect(request.META.get('HTTP_REFERER', '/'))
   recipe = Recipe.objects.get(id=id)
-  muser = MUser.objects.get(name=request.user)
+  muser = MUser.objects.get(id=request.user.id)
   text = request.POST['suggestion']
   suggestion = Suggestion(author=muser,
                           recipe=recipe,
