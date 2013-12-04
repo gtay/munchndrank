@@ -264,7 +264,7 @@ def search_by_name(request):
   if not 'search_term' in request.POST or not request.POST['search_term']:
     return render(request, 'yum/search.html', {'errors':"Oops were you searching for something?"})
   search_name = request.POST['search_term']
-  recipes = Recipe.objects.filter(name__contains=search_name)
+  recipes = Recipe.objects.filter(name__icontains=search_name)
   recipes = recipes.exclude(is_closed=True);
   if not recipes:
     errors = "There were no recipes found..you should try uploading one"
