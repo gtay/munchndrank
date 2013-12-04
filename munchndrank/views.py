@@ -620,6 +620,11 @@ def show_openbook(request,id):
       errors_d.append('There are no recipes in this openbook')
     else:
       for r in r_book:
+        (avg_rating,usr_rating) = get_recipe_rating(r,MUser.objects.get(id=request.user.id))
+        if not avg_rating < 0:
+          r.avg_rating = avg_rating
+        if not usr_rating < 0:
+          r.user_rating = usr_rating
         if r.drink_flag:
           drink.append(r)
         else:

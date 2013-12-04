@@ -28,7 +28,18 @@ Recipe Book
             {% csrf_token %}
             </form>
           </td><td><p>&nbsp;</p></td><td>
-            <img src="http://www.clker.com/cliparts/9/h/1/g/u/T/five-star-rating-th.png" alt="rating"></td>
+            <span id='{{ f.id }}-avg-span'>
+              {% if f.avg_rating %}
+                Average Rating: {{ f.avg_rating|stringformat:".3f" }}
+              {% endif %}
+            </span>
+            <span class='rateit' data-recipeid="{{f.id}}"
+              {% if f.user_rating %}
+                data-rateit-ispreset="True"
+                data-rateit-value="{{ f.user_rating }}"
+              {% endif %}>
+            </span>
+            </td>
             <td>
             </td>
           </tr>
@@ -54,7 +65,17 @@ Recipe Book
             </form>
           </td><td>
             <p style="color:White">&nbsp;</p></td><td>
-            <img src="http://www.clker.com/cliparts/9/h/1/g/u/T/five-star-rating-th.png" alt="rating">
+            <span id='{{ d.id }}-avg-span'>
+              {% if d.avg_rating %}
+                Average Rating: {{ d.avg_rating|stringformat:".3f" }}
+              {% endif %}
+            </span>
+            <span class='rateit' data-recipeid="{{d.id}}"
+              {% if d.user_rating %}
+                data-rateit-ispreset="True"
+                data-rateit-value="{{ d.user_rating }}"
+              {% endif %}>
+            </span>
           </td></tr>
           {% endfor %}
           </tbody>
